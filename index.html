@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f0e11">
+<title>🔮 เลขศาสตร์ Gold Oracle</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e11;--card:#1d1b20;--card2:#252329;--gold:#f5d76e;--gold2:#ffeaa0;--text:#fff;--muted:#b3b0b8;--line:rgba(245,215,110,.2);--ok:#8de29f;--bad:#ff9a9a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{--s:max(11.5px,.85rem);--b:max(12.5px,.92rem);font-size:clamp(12.5px,min(2.2vh,3.9vw),17px);-webkit-text-size-adjust:100%}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:"Prompt","Noto Sans Thai","Sarabun",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body{overscroll-behavior:none}
+#app{height:100%;height:100dvh;max-width:34rem;margin:0 auto;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0);position:relative}
+#app::before{content:"";position:absolute;top:-25%;left:50%;width:120%;height:55%;transform:translateX(-50%);background:radial-gradient(circle,rgba(245,215,110,.16),transparent 70%);pointer-events:none}
+header{position:relative;text-align:center;padding:.4rem 1rem .15rem}
+h1{font-size:1.6rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+h1 b{color:var(--gold)}
+.sub{font-size:var(--s);color:var(--muted);line-height:1.3}
+.pane{position:relative;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding:.3rem .9rem .5rem;display:flex;flex-direction:column;gap:.5rem}
+.pane::-webkit-scrollbar{display:none}
+.pane[hidden]{display:none}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:1.2rem;padding:.65rem .8rem}
+.lbl{display:block;font-size:var(--s);font-weight:600;color:var(--gold);margin:0 0 .15rem .3rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.g32{display:grid;grid-template-columns:3fr 2fr;gap:.5rem}
+.sec{font-size:var(--s);font-weight:700;color:var(--gold2);margin:.1rem 0 -.15rem .3rem}.sec small{font-weight:500;color:var(--muted);font-size:var(--s)}
+.xc{display:flex;gap:.7rem;align-items:flex-start}.xc .t{flex:1;min-width:0}.num.s{width:3.9rem;height:3.9rem;font-size:2.1rem;border-radius:1rem;flex:none}
+input{width:100%;height:3.1rem;border-radius:1rem;background:var(--card);border:1.6px solid var(--line);color:#fff;padding:0 1rem;font-family:inherit;font-weight:500;font-size:max(16px,1.25rem);outline:none;color-scheme:dark}
+input:focus{border-color:var(--gold)}
+input::placeholder{color:#908c99}
+textarea{width:100%;display:block;height:4.2rem;border-radius:1rem;background:var(--card2);border:1.6px solid var(--line);color:#fff;padding:.55rem 1rem;font-family:inherit;font-weight:500;font-size:max(16px,1.1rem);line-height:1.35;outline:none;resize:none;color-scheme:dark}
+textarea:focus{border-color:var(--gold)}textarea::placeholder{color:#908c99}
+.qc{border-color:var(--line);background:linear-gradient(180deg,rgba(245,215,110,.09),var(--card))}.qc .lbl{margin-left:.1rem}
+.qx{display:flex;gap:.35rem;margin-top:.4rem;flex-wrap:wrap}.qx button{border:1px solid rgba(255,255,255,.09);background:var(--card2);color:var(--muted);border-radius:99px;padding:.25rem .7rem;font-family:inherit;font-weight:600;font-size:var(--s);cursor:pointer}.qx button:active{background:var(--gold);color:var(--bg)}
+.btn{height:3.3rem;border:0;border-radius:1.1rem;font-family:inherit;font-weight:700;font-size:1.25rem;background:var(--gold);color:var(--bg);box-shadow:0 .6rem 1.4rem rgba(245,215,110,.22);cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--card2);color:var(--muted);box-shadow:none;border:1px solid rgba(255,255,255,.08);font-size:1rem;padding:0 1rem}
+.row{display:flex;gap:.55rem}.row .btn:first-child{flex:1}
+.err{border-radius:.9rem;background:#2a1f1f;border:1px solid #ff7a7a44;color:var(--bad);padding:.5rem .8rem;font-size:var(--b);line-height:1.35}
+.err:empty{display:none}
+.note{font-size:var(--s);color:var(--muted);text-align:center;line-height:1.4;opacity:.85}
+.hero{display:flex;gap:.8rem;align-items:flex-start}
+.big{flex:none;width:6.3rem;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.num{width:6.3rem;height:6.3rem;border-radius:1.4rem;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:3.7rem;font-weight:700;color:var(--gold);line-height:1}
+.badge{font-size:var(--s);font-weight:700;background:var(--gold);color:var(--bg);border-radius:99px;padding:.15rem .6rem;white-space:nowrap}
+.hero .t{min-width:0;flex:1}
+.k{font-size:var(--s);font-weight:600;letter-spacing:.06em;color:var(--gold)}
+.ttl{font-size:1.15rem;font-weight:700;line-height:1.3;margin-top:.1rem}.ttl span{color:var(--gold2)}
+.desc{margin-top:.35rem;font-size:var(--b);line-height:1.5;color:var(--muted)}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.chip{border:1px solid rgba(255,255,255,.09);background:var(--card2);color:var(--muted);border-radius:.9rem;padding:.35rem .1rem;font-family:inherit;font-weight:600;font-size:var(--s);line-height:1.2;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.05rem}
+.chip i{font-style:normal;font-size:1.05rem}.chip b{font-size:1rem;color:var(--text)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:var(--bg)}.chip.on b{color:var(--bg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.h{font-size:var(--s);font-weight:700;margin-bottom:.25rem}.h.g{color:var(--ok)}.h.r{color:var(--bad)}.h.m{color:var(--muted)}
+.p{font-size:var(--b);line-height:1.5;font-weight:500}
+.hr{height:1px;background:rgba(255,255,255,.07);margin:.5rem 0}
+.foot{text-align:center;font-size:var(--s);color:var(--muted);opacity:.7;line-height:1.4}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.mini{text-align:center;padding:.6rem .3rem}
+.mini b{display:block;font-size:2.4rem;color:var(--gold);line-height:1.1}
+.mini span{font-size:var(--s);color:var(--muted);font-weight:600}.mini em{display:block;font-style:normal;font-size:var(--s);margin-top:.1rem}
+.sw{display:inline-block;width:.9rem;height:.9rem;border-radius:50%;vertical-align:-.12rem;margin-right:.3rem;border:1px solid rgba(255,255,255,.4)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}
+.cell{background:var(--card2);border:1px solid rgba(255,255,255,.08);border-radius:1rem;text-align:center;padding:.4rem .2rem}
+.cell.has{border-color:var(--line)}.cell.strong{background:rgba(245,215,110,.14);border-color:var(--gold)}
+.cell b{font-size:1.8rem;line-height:1.1;color:var(--gold);display:block}.cell.no b{color:#8f8b98}
+.cell small{display:block;font-size:var(--s);color:var(--muted);line-height:1.2}
+.cell s{text-decoration:none;display:block;font-size:var(--s);letter-spacing:.1em;min-height:1.1em;color:var(--gold2)}
+.score{text-align:center}.score b{font-size:3.4rem;color:var(--gold);line-height:1}.score b small{font-size:1.4rem}
+.bar{height:.55rem;border-radius:9px;background:var(--bg);overflow:hidden;margin:.45rem 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:9px}
+.ask{display:flex;gap:.5rem}.ask input{flex:1;min-width:0;height:2.9rem}.ask .btn{height:2.9rem;flex:none;padding:0 1rem;font-size:1rem}
+.vd{display:flex;gap:.7rem;align-items:center}.vd .sc{flex:none;text-align:center;line-height:1;font-size:2.4rem;font-weight:700;color:var(--gold)}.vd .sc small{font-size:1rem}.vd .sc span{display:block;font-size:1.6rem;margin-bottom:.15rem}
+.qt{font-size:var(--s);color:var(--muted);margin-bottom:.35rem;font-style:italic}
+.ln{font-size:var(--b);line-height:1.5;font-weight:500}.ln+.ln{margin-top:.35rem}
+.ex{display:flex;flex-direction:column;gap:.4rem}.ex .chip{flex-direction:row;justify-content:flex-start;gap:.5rem;padding:.55rem .8rem;text-align:left;font-size:var(--b)}
+#mres{display:flex;flex-direction:column;gap:.5rem}
+.empty{margin:auto;text-align:center;line-height:1.6;color:var(--muted);display:flex;flex-direction:column;gap:.7rem;align-items:center}
+.empty .btn{padding:0 1.4rem;font-size:1.1rem;height:3rem}
+nav{display:grid;grid-template-columns:repeat(7,1fr);background:#16141a;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}
+nav button{border:0;background:none;color:var(--muted);padding:.4rem 0 .35rem;font-family:inherit;font-weight:600;font-size:max(.8rem,11px);line-height:1.2;display:flex;flex-direction:column;align-items:center;gap:.05rem;cursor:pointer;border-top:2px solid transparent}
+nav button i{font-style:normal;font-size:1.35rem;line-height:1.2}
+nav button[aria-selected=true]{color:var(--gold);border-top-color:var(--gold)}
+#toast{position:absolute;left:50%;bottom:4.6rem;transform:translateX(-50%);background:var(--gold);color:var(--bg);font-weight:700;font-size:.95rem;padding:.45rem 1rem;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap;z-index:5}
+#toast.on{opacity:1}
+.th{overflow-wrap:break-word;word-break:normal;line-break:auto}.w{white-space:nowrap}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (max-height:600px){.pane{gap:.3rem}.chip i{font-size:1rem}}
+@media (max-height:700px){textarea{height:3.5rem}.sub{display:none}.pane{gap:.4rem;padding:.25rem .8rem .4rem}.card{padding:.5rem .65rem}.num{width:5rem;height:5rem;font-size:3rem}.big{width:5rem;gap:.3rem}.hero{gap:.6rem}.hr{margin:.35rem 0}.chip{padding:.25rem .1rem}.desc{margin-top:.2rem}h1{font-size:1.4rem}header{padding:.3rem 1rem 0}input{height:2.9rem}.btn{height:3rem}}
+@media (max-height:620px){#p6{gap:.3rem}#p6 .qt,#p6 .foot{display:none}#p6 .card{padding:.4rem .6rem}#p6 .hr{margin:.25rem 0}#p6 .vd .sc{font-size:2rem}#p6 .bar{margin:.3rem 0}.ask input,.ask .btn{height:2.5rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <h1>✦ <b>เลขศาสตร์</b> 🔮</h1>
+  <p class="sub">✨ ค้นหาพลังตัวเลขจากชื่อและวันเกิด 🌙</p>
+</header>
+
+<section class="pane" id="p0" role="tabpanel" aria-label="ข้อมูล">
+  <div><label class="lbl" for="dob">🎂 วันเกิด</label><input id="dob" type="date" min="1900-01-01"></div>
+  <div class="g2">
+    <div><label class="lbl" for="fn">👤 ชื่อ</label><input id="fn" autocomplete="off" maxlength="40" placeholder="สมชาย"></div>
+    <div><label class="lbl" for="ln">👥 นามสกุล</label><input id="ln" autocomplete="off" maxlength="40" placeholder="ใจดี"></div>
+  </div>
+  <div class="card qc"><label class="lbl" for="q">❓ คำถามที่อยากรู้ <small style="font-weight:500;color:var(--muted)">(พิมพ์เรื่องที่อยากรู้ ระบุช่วงเวลาจะแม่นขึ้น)</small></label><textarea id="q" maxlength="150" rows="2" placeholder="เช่น ปีนี้ควรเปลี่ยนงานไหม"></textarea><div class="qx"><button type="button" data-qs="ปีนี้ควรเปลี่ยนงานไหม">💼 งาน</button><button type="button" data-qs="เดือนนี้เรื่องความรักเป็นอย่างไร">💞 รัก</button><button type="button" data-qs="ควรลงทุนตอนนี้ไหม">💰 เงิน</button><button type="button" data-qs="ปีนี้สุขภาพเป็นอย่างไร">🩺 สุขภาพ</button></div></div>
+  <p class="sec">🧩 ข้อมูลเสริม <small>(ไม่บังคับ • ไม่บันทึกในเครื่อง)</small></p>
+  <div><label class="lbl" for="nid">🪪 เลขบัตรประชาชน 13 หลัก</label><input id="nid" inputmode="numeric" autocomplete="off" maxlength="17" placeholder="x-xxxx-xxxxx-xx-x"></div>
+  <div class="g32">
+    <div><label class="lbl" for="tel">📱 เบอร์มือถือ</label><input id="tel" type="tel" inputmode="tel" autocomplete="off" maxlength="15" placeholder="08x-xxx-xxxx"></div>
+    <div><label class="lbl" for="seen">👁️ เลขที่เห็นตอนนี้</label><input id="seen" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="2 ตัว"></div>
+  </div>
+  <div class="err" id="err" role="alert"></div>
+  <div class="row"><button class="btn" id="go">🔮 ดูดวงเลย ✦</button><button class="btn ghost" id="clr" aria-label="ล้างข้อมูล">🗑️ ล้าง</button></div>
+  <p class="note">📐 Pythagorean • ก-ฮ = 1-9 วนซ้ำ • มาสเตอร์ 11/22/33<br>🔒 เลขบัตรและเบอร์ใช้คำนวณในเครื่อง ไม่ถูกบันทึกหรือส่งออก</p>
+</section>
+
+<section class="pane" id="p1" role="tabpanel" aria-label="เลขหลัก" hidden></section>
+<section class="pane" id="p2" role="tabpanel" aria-label="พยากรณ์" hidden></section>
+
+<section class="pane" id="p3" role="tabpanel" aria-label="เข้ากัน" hidden>
+  <div><label class="lbl" for="pdob">💞 วันเกิดของอีกคน</label><input id="pdob" type="date" min="1900-01-01"></div>
+  <button class="btn" id="mgo">💘 ตรวจความเข้ากัน</button>
+  <div id="mres"></div>
+</section>
+
+<section class="pane" id="p4" role="tabpanel" aria-label="ตาราง" hidden></section>
+<section class="pane" id="p5" role="tabpanel" aria-label="เจาะลึก" hidden></section>
+<section class="pane" id="p6" role="tabpanel" aria-label="ถามดวง" hidden></section>
+
+<nav role="tablist" aria-label="เมนู">
+  <button role="tab" aria-selected="true" data-t="0"><i>📝</i>ข้อมูล</button>
+  <button role="tab" aria-selected="false" data-t="1"><i>🔢</i>เลขหลัก</button>
+  <button role="tab" aria-selected="false" data-t="2"><i>🔮</i>พยากรณ์</button>
+  <button role="tab" aria-selected="false" data-t="3"><i>💞</i>เข้ากัน</button>
+  <button role="tab" aria-selected="false" data-t="4"><i>🧮</i>ตาราง</button>
+  <button role="tab" aria-selected="false" data-t="5"><i>🔭</i>เจาะลึก</button>
+  <button role="tab" aria-selected="false" data-t="6"><i>🙋</i>ถามดวง</button>
+</nav>
+<div id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const MASTER=[11,22,33], KEY='numerology-gold-oracle.v1';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let seg=null;try{if(window.Intl&&Intl.Segmenter)seg=new Intl.Segmenter('th',{granularity:'word'});}catch(e){}
+const th=t=>{t=String(t);try{return seg?Array.from(seg.segment(t)).map(x=>x.isWordLike?'<span class="w">'+esc(x.segment)+'</span>':esc(x.segment)).join('<wbr>'):esc(t);}catch(e){return esc(t);}};
+const ds=n=>String(n).split('').reduce((a,c)=>a+Number(c),0);
+const red=(n,keep=true)=>{n=Math.abs(Math.trunc(n))||0;while(n>9&&!(keep&&MASTER.includes(n)))n=ds(n);return n;};
+const base=n=>red(n,false);
+const store={get(){try{return JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){return null;}},
+ set(v){try{localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}},del(){try{localStorage.removeItem(KEY);}catch(e){}}};
+let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800);};
+
+/* ---------- data ---------- */
+const CON='กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ', VOW='ะัาำิีึืุูเแโใไฤ';
+const M={
+1:['ผู้นำ นักบุกเบิก','คุณเกิดมาเพื่อนำทาง ไม่ใช่เดินตาม มีไฟบุกเบิก กล้าคิดกล้าทำ และตัดสินใจเด็ดขาดด้วยตัวเอง','มั่นใจ กล้าหาญ ตัดสินใจไว','ใจร้อน ดื้อ ชอบแบกทุกอย่างไว้เอง','ผู้บริหาร สตาร์ทอัพ นักกีฬา ที่ปรึกษา','ชัดเจน ตรงไปตรงมา ชอบคนที่เก่งและเคารพพื้นที่'],
+2:['นักประสาน อ่อนโยน','คุณคือคนกลางที่ทำให้ทุกอย่างสมดุล อ่อนโยน ละเอียด และเข้าใจความรู้สึกคนอื่นได้ลึกซึ้งมาก','ใจเย็น เข้าอกเข้าใจ ประนีประนอม','คิดมาก อ่อนไหว กลัวความขัดแย้ง','นักจิตวิทยา HR ศิลปิน นักการทูต งานบริการ','ต้องการความอ่อนโยน มั่นคง ใครที่ใส่ใจรายละเอียดจะชนะใจ'],
+3:['นักสร้างสรรค์ สดใส','พลังของความสนุก ไอเดีย และการสื่อสาร คุณทำให้บรรยากาศมีชีวิตชีวา และมีพรสวรรค์ด้านการเล่าเรื่อง','สื่อสารเก่ง ครีเอทีฟ มองโลกแง่ดี','เบื่อง่าย กระจายโฟกัส พูดเยอะกว่าทำ','ครีเอเตอร์ พิธีกร นักเขียน การตลาด อินฟลูเอนเซอร์','ขี้เล่น ชอบคนคุยสนุก ไม่ชอบความน่าเบื่อ'],
+4:['นักสร้างระบบ มั่นคง','คุณคือรากฐานที่แข็งแรง มีระเบียบ อดทน และสร้างทุกอย่างจากศูนย์ให้กลายเป็นของจริงได้','มีวินัย รอบคอบ รับผิดชอบสูง','ยึดกรอบ เครียดง่าย ไม่ค่อยยืดหยุ่น','วิศวกร สถาปนิก บัญชี ผู้จัดการโครงการ ก่อสร้าง','รักมั่นคง จริงจัง ชอบความชัดเจนระยะยาว'],
+5:['นักผจญภัย อิสระ','คุณเกิดมาเพื่อเรียนรู้โลกผ่านประสบการณ์ ปรับตัวเร็ว รักอิสระ และมีพลังเปลี่ยนแปลงสูง','ปรับตัวเก่ง ฉลาดเร็ว มีเสน่ห์','อยู่ไม่นิ่ง เบื่อไว กลัวการผูกมัด','นักเดินทาง เซลส์ นักข่าว ธุรกิจส่วนตัว งานอีเวนต์','ต้องการพื้นที่ ต้องสนุกและเติบโตไปด้วยกัน'],
+6:['นักดูแล อบอุ่น','หัวใจของคุณคือการดูแล คุณมีความรับผิดชอบ อบอุ่น และอยากเห็นทุกคนรอบตัวมีความสุข','ใจดี รับผิดชอบ เสียสละ','แบกภาระคนอื่นมากไป กังวล ชอบควบคุม','ครู พยาบาล งานออกแบบตกแต่ง เชฟ งานบริการชุมชน','รักแบบดูแล ทุ่มเท ต้องการความซื่อสัตย์และความอบอุ่นกลับมา'],
+7:['นักวิเคราะห์ ลึกซึ้ง','คุณไม่เชื่ออะไรง่ายๆ ชอบขุดลึก ค้นหาแก่น และมีโลกภายในที่ลึกซึ้งและชาญฉลาด','คิดวิเคราะห์เก่ง มีสมาธิ ฉลาดลึก','โลกส่วนตัวสูง ขี้สงสัย เก็บตัว','นักวิจัย นักเขียน โปรแกรมเมอร์ นักจิตวิญญาณ อาจารย์','ต้องการคนที่เข้าใจความเงียบและให้เวลาคิด'],
+8:['นักบริหาร พลังเงิน','คุณมีพลังของเป้าหมายและการจัดการ มองเห็นภาพใหญ่ และเปลี่ยนทรัพยากรให้เป็นความสำเร็จได้','มุ่งมั่น บริหารเก่ง มองการไกล','กดดันตัวเอง เครียดเรื่องเงิน-งาน ควบคุมสูง','CEO การเงิน อสังหา นักลงทุน ผู้บริหารธุรกิจ','รักที่ต้องเท่าเทียม เคารพกัน และสนับสนุนเป้าหมายกัน'],
+9:['นักให้ เมตตา','คุณมีหัวใจกว้าง มองภาพรวมของมนุษยชาติ อุดมคติสูง และอยากทำให้โลกดีขึ้น','เมตตา เข้าใจกว้าง มีวิสัยทัศน์','แบกอุดมคติ เสียสละจนลืมตัวเอง','งานเพื่อสังคม ศิลปิน ครู นักบำบัด มูลนิธิ','รักลึกซึ้ง ให้อภัยเก่ง ต้องการคนที่เข้าใจอุดมคติ'],
+11:['ผู้นำทางจิตวิญญาณ','เซนส์แรงและสัญชาตญาณสูง คุณเป็นแสงนำทาง มีแรงบันดาลใจและเชื่อมต่อกับสิ่งที่ลึกกว่าเหตุผล','เซนส์แรง สร้างแรงบันดาลใจ ลึกซึ้ง','อ่อนไหว เครียดง่าย วิตกจากพลังงานรอบตัว','โค้ชชีวิต นักเขียน นักพูด ศิลปิน ฮีลเลอร์','ต้องการความเข้าใจทางจิตใจ ไม่ใช่แค่ความโรแมนติก'],
+22:['ผู้สร้างระดับใหญ่','คุณมีพลังเปลี่ยนฝันใหญ่ให้เป็นจริงได้จริงๆ คิดใหญ่ ทำจริง และสร้างสิ่งที่อยู่ได้นานกว่าตัวคุณ','วิสัยทัศน์ใหญ่ ลงมือทำ สร้างระบบได้','กดดันสูง กลัวล้มเหลว คิดมาก','ผู้ก่อตั้งองค์กร สถาปนิก นักพัฒนาอสังหา โปรเจกต์ระดับชาติ','ต้องการคู่ที่มั่นคงและพร้อมสร้างอนาคตใหญ่ด้วยกัน'],
+33:['ครูผู้ให้ยิ่งใหญ่','หัวใจของคุณคือการให้และเยียวยา คุณเกิดมาเพื่อสอน ดูแล และยกระดับคนรอบตัวด้วยความรัก','เมตตาสูง เสียสละ เป็นที่พึ่งของคนอื่น','แบกทุกข์คนอื่น ลืมดูแลตัวเอง','ครู นักบำบัด งานอาสา ศิลปะบำบัด งานสอนจิตใจ','รักแบบไม่มีเงื่อนไข แต่ต้องเรียนรู้ขอบเขต']
+};
+const KEYS=[['lp','🛤️','เลขวิถีชีวิต','วิถีชีวิต','เส้นทางชีวิตของคุณคือ'],['bd','🎂','เลขวันเกิด','วันเกิด','พลังจากวันเกิดบอกว่าคุณเป็น'],['ex','🧿','เลขโชคชะตา','โชคชะตา','พรสวรรค์ที่ติดตัวมาคือ'],['so','💖','เลขหัวใจ','หัวใจ','ลึกๆ ในใจคุณโหยหา'],['pe','🎭','เลขบุคลิก','บุคลิก','คนรอบตัวมองคุณเป็น'],['ma','🌳','เลขวุฒิภาวะ','วุฒิภาวะ','ยิ่งโตคุณยิ่งฉายแววของ'],['py','📆','เลขปีส่วนตัว','ปีส่วนตัว','พลังประจำปีนี้ของคุณคือ']];
+const CYC={1:['🌱','เริ่มต้นใหม่','ปีแห่งการเริ่มต้น ลงมือทำโปรเจกต์ใหม่ กล้าตัดสินใจ'],2:['🤝','ร่วมมือ','ปีแห่งความร่วมมือ ใจเย็น รอจังหวะและฟังคนอื่น'],3:['🎨','สร้างสรรค์','ปีแห่งการสื่อสารและไอเดีย ออกสังคมและแสดงตัวตน'],4:['🧱','วางรากฐาน','ปีแห่งการวางรากฐาน ทำงานหนักอย่างเป็นระบบ'],5:['🧭','เปลี่ยนแปลง','ปีแห่งการเปลี่ยนแปลง โอกาสใหม่ ระวังความใจร้อน'],6:['🏡','ครอบครัว','ปีแห่งครอบครัวและความรับผิดชอบ ดูแลคนใกล้ตัว'],7:['🧘','ค้นหาตัวเอง','ปีแห่งการพักใจ ศึกษา ใคร่ครวญและค้นหาตัวเอง'],8:['💰','ความสำเร็จ','ปีแห่งความสำเร็จ เงินและอำนาจ บริหารให้สมดุล'],9:['🌅','ปล่อยวาง','ปีแห่งการสะสาง ปิดวงจรเก่า เตรียมเริ่มรอบใหม่']};
+const LUCKY={1:['ทอง/ส้ม','อาทิตย์','#f5a623'],2:['ขาว/เงิน','จันทร์','#e6e6ee'],3:['เหลือง','พฤหัสบดี','#ffd93b'],4:['ฟ้า/เทา','เสาร์','#6fa8dc'],5:['เขียว','พุธ','#58c878'],6:['ชมพู','ศุกร์','#ff8fb8'],7:['ม่วง','จันทร์','#a678e3'],8:['น้ำเงินเข้ม','เสาร์','#3b5bdb'],9:['แดง','อังคาร','#e5484d']};
+const TRAIT={1:'ตัวตน',2:'ความอ่อนไหว',3:'ไอเดีย',4:'ความมั่นคง',5:'อิสระ',6:'ความรับผิดชอบ',7:'ปัญญา',8:'พลังงาน/เงิน',9:'อุดมคติ'};
+const KARMA={13:'13/4 งานหนัก ต้องอดทนและมีวินัย',14:'14/5 ระวังความเพลิดเพลินเกินพอดี',16:'16/7 อีโก้ถูกท้าทาย เรียนรู้ความถ่อมตน',19:'19/1 ต้องเรียนรู้การพึ่งตนเองและแบ่งปัน'};
+const NOW={0:['⭕','ว่างเปล่า','พลังว่างพร้อมเริ่มใหม่ ปล่อยวางสิ่งที่ค้างคา'],1:['🌱','โอกาสใหม่','มีเรื่องเริ่มต้นหรือข่าวใหม่เข้ามา กล้าตัดสินใจได้'],2:['🤝','คนใกล้ตัว','ข่าวหรือเรื่องจากคนใกล้ตัว ใจเย็นและรอจังหวะ'],3:['💌','ข่าวดี','การสื่อสาร ข่าวดี หรือคำเชิญเข้ามา ยิ้มรับไว้'],4:['📋','งานและเอกสาร','เรื่องงาน เอกสาร หรือระเบียบที่ต้องจัดการให้เรียบร้อย'],5:['🧭','เปลี่ยนแปลง','การเดินทางหรือเรื่องไม่คาดคิด ยืดหยุ่นไว้'],6:['🏡','บ้านและหัวใจ','เรื่องครอบครัว ความรัก หรือการดูแลกัน'],7:['🤔','ใคร่ครวญ','ได้ข้อมูลลึกหรือสัญญาณเตือน หยุดคิดก่อนตัดสินใจ'],8:['💰','เงินและอำนาจ','เรื่องเงิน งาน หรือการเจรจาที่มีผลมาก'],9:['🌅','ปิดเรื่องค้าง','เรื่องเก่าใกล้จบ ปล่อยวางเพื่อรับสิ่งใหม่']};
+const TOPICS=[
+['love','💞','ความรัก',/รัก|แฟน|คู่ครอง|แต่งงาน|สามี|ภรรยา|เลิกกัน|หัวใจ|love|marry|boyfriend|girlfriend/i,[2,6,9,3],'ความสัมพันธ์มีแรงหนุน เปิดใจและสื่อสารตรงๆ จะได้ผลดี','ใจยังไม่นิ่ง อย่าด่วนตัดสินใจ ฟังกันให้มากขึ้นก่อน'],
+['luck','🍀','โชคลาภ',/โชค|หวย|ลอตเตอรี่|เสี่ยงดวง|lucky|lottery/i,[3,5,8],'พลังโชคหนุนเล็กน้อย แต่อย่าหวังผลรางวัล เล่นแต่พอดี','ไม่ใช่ช่วงเสี่ยงโชค เก็บเงินไว้ใช้เรื่องจำเป็น'],
+['biz','🏪','ธุรกิจ',/ธุรกิจ|เปิดร้าน|ขายของ|หุ้นส่วน|ลูกค้า|สตาร์ทอัพ|business|startup/i,[8,1,5,4],'จังหวะดีต่อการเริ่มหรือขยาย ทดลองตลาดแล้วค่อยเพิ่ม','ยังไม่ควรเดิมพันหนัก เตรียมข้อมูลและเงินสำรองก่อน'],
+['money','💰','การเงิน',/เงิน|รวย|หนี้|ลงทุน|หุ้น|ออม|รายได้|โบนัส|เงินเดือน|money|invest|salary/i,[8,4,1],'การเงินมีจังหวะดี วางแผนและลงมืออย่างมีเหตุผล','ระวังรายจ่ายและความเสี่ยง ชะลอการตัดสินใจก้อนใหญ่'],
+['work','💼','การงาน',/งาน|สมัคร|เลื่อนตำแหน่ง|เจ้านาย|ลาออก|สัมภาษณ์|job|career|promotion/i,[1,8,4,3],'งานมีโอกาสก้าวหน้า เสนอตัวและโชว์ผลงานได้เต็มที่','ยังไม่ใช่ช่วงเปลี่ยนใหญ่ เก็บข้อมูลและพัฒนาตัวเองไปก่อน'],
+['health','🩺','สุขภาพ',/สุขภาพ|ป่วย|หมอ|ผ่าตัด|ออกกำลัง|ลดน้ำหนัก|health|diet/i,[6,4,7],'พลังกายใจพร้อมฟื้นฟู เริ่มวินัยดีๆ ได้เลย','พักผ่อนให้พอ และอย่ารอ หากกังวลควรปรึกษาแพทย์'],
+['study','📚','การเรียน',/เรียน|สอบ|มหาวิทยาลัย|ทุน|ปริญญา|study|exam/i,[7,3,5],'สมาธิดี ทบทวนและลงมือเรียนได้ผลคุ้ม','อย่าเร่ง วางตารางอ่านเป็นช่วงสั้นๆ แล้วทำต่อเนื่อง'],
+['move','🧳','การเดินทาง/ย้ายที่',/เดินทาง|ย้าย|ต่างประเทศ|เที่ยว|บ้าน|คอนโด|รถ|travel|move/i,[5,3,1],'จังหวะเอื้อต่อการเดินทางหรือย้ายที่ เตรียมเอกสารให้พร้อม','ตรวจรายละเอียดและเผื่อเวลาก่อนตัดสินใจ'],
+['family','👪','ครอบครัว',/ครอบครัว|พ่อ|แม่|ลูก|พี่น้อง|ญาติ|family/i,[6,2,9],'บรรยากาศอบอุ่น การพูดคุยจะคลี่คลายเรื่องค้าง','ใจเย็นๆ เลี่ยงการถกเถียง ให้เวลาแต่ละคน']];
+const GENERAL=['gen','🔮','ภาพรวม',null,[1,3,5,8,9],'ภาพรวมเป็นบวก ตัดสินใจตามที่ใจมั่นคง','ภาพรวมควรรอจังหวะ ทบทวนก่อนลงมือ'];
+const FRAMES=[[/ปีหน้า|next year/i,'ปีหน้า','y+'],[/พรุ่งนี้|tomorrow/i,'พรุ่งนี้','d1'],[/วันนี้|ตอนนี้|เดี๋ยวนี้|today|now/i,'วันนี้','d0'],[/สัปดาห์|อาทิตย์|week/i,'สัปดาห์นี้','m'],[/เดือน|month/i,'เดือนนี้','m'],[/ปีนี้|ปี|year/i,'ปีนี้','y']];
+const YESNO=/ไหม|มั้ย|หรือเปล่า|หรือไม่|หรือยัง|\?|should|will |can /i;
+const HIGH='1-5 1-3 2-4 2-6 2-8 3-5 3-6 3-9 4-6 4-8 5-7 6-9 7-9'.split(' '), LOW='1-4 1-8 3-4 4-5 5-6 6-7 7-8 2-5'.split(' ');
+const pairScore=(a,b)=>{const k=Math.min(a,b)+'-'+Math.max(a,b);return a===b?82:HIGH.includes(k)?92:LOW.includes(k)?62:76;};
+
+/* ---------- calculation ---------- */
+function parseDob(v){
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');if(!m)return null;
+  const y=+m[1],mo=+m[2],d=+m[3],dt=new Date(y,mo-1,d);
+  if(dt.getFullYear()!==y||dt.getMonth()!==mo-1||dt.getDate()!==d)return null;
+  if(y<1900||dt>new Date())return null;
+  return {y,m:mo,d};
+}
+function lifePath(b){const raw=red(b.d)+red(b.m)+red(b.y);return {raw,lp:red(raw)};}
+function nameNums(txt){
+  const st=[];
+  for(const ch of String(txt).normalize('NFC')){
+    const u=ch.toUpperCase();
+    if(u.length===1&&u>='A'&&u<='Z')st.push({v:(u.charCodeAt(0)-65)%9+1,vw:'AEIOU'.includes(u)});
+    else if(CON.includes(ch))st.push({v:CON.indexOf(ch)%9+1,vw:false});
+    else if(VOW.includes(ch))st.push({v:VOW.indexOf(ch)%9+1,vw:true});
+    else if(ch==='\u0E4C'){const l=st.pop();if(l&&l.vw)st.pop();}
+  }
+  const sum=f=>st.filter(f).reduce((a,x)=>a+x.v,0);
+  return {n:st.length,total:sum(()=>true),vs:sum(x=>x.vw),cs:sum(x=>!x.vw)};
+}
+function compute(dobStr,fn,ln){
+  if(!dobStr)return {err:'📅 กรุณาเลือกวันเกิด'};
+  const b=parseDob(dobStr);if(!b)return {err:'📅 วันเกิดไม่ถูกต้องหรืออยู่ในอนาคต'};
+  const nn=nameNums((fn||'').trim()+' '+(ln||'').trim());
+  if(!(fn||'').trim()&&!(ln||'').trim())return {err:'👤 กรุณากรอกชื่อหรือนามสกุลอย่างน้อย 1 ช่อง'};
+  if(!nn.n)return {err:'🔤 ใช้ตัวอักษรไทยหรืออังกฤษเท่านั้น'};
+  const L=lifePath(b),ex=red(nn.total),py=pyear(b);
+  const r={b,lp:L.lp,lpRaw:L.raw,bd:red(b.d),ex,exRaw:nn.total,
+    so:nn.vs?red(nn.vs):ex,pe:nn.cs?red(nn.cs):ex,py,fn:(fn||'').trim(),ln:(ln||'').trim()};
+  r.ma=red(r.lp+r.ex);return {r};
+}
+function pyear(b,now=new Date()){return base(base(b.d)+base(b.m)+base(now.getFullYear()));}
+
+/* ---------- state & rendering ---------- */
+let R=null,sel='lp',tab=0;
+const empty=()=>'<div class="empty"><div style="font-size:3rem">📝</div><div>กรอกวันเกิดและชื่อ<br>ที่แท็บ 📝 ข้อมูล ก่อนนะ</div><button class="btn" data-go="0">📝 ไปกรอกข้อมูล</button></div>';
+function renderCore(){
+  const p=$('#p1');if(!R){p.innerHTML=empty();return;}
+  const meta=KEYS.find(k=>k[0]===sel),v=R[sel],d=M[v]||M[base(v)];
+  const chips=KEYS.map(k=>`<button class="chip${k[0]===sel?' on':''}" data-k="${k[0]}"><i>${k[1]}</i>${k[3]}<b>${R[k[0]]}</b></button>`).join('')+
+    '<button class="chip" id="share"><i>📤</i>แชร์<b>&nbsp;</b></button>';
+  const karma=(sel==='lp'&&KARMA[R.lpRaw])?`<div class="p" style="margin-top:.3rem;color:var(--gold2)">⚖️ กรรมเลข ${th(KARMA[R.lpRaw])}</div>`:'';
+  p.innerHTML=`<div class="card hero"><div class="big"><div class="num" aria-label="เลข ${v}">${v}</div><div class="badge">${MASTER.includes(v)?'🌟 มาสเตอร์':'เลขเดี่ยว'}</div></div>
+  <div class="t th"><div class="k">${meta[1]} ${meta[2]}</div><div class="ttl">${th(meta[4])} <span>${th(d[0])}</span></div><div class="desc">${th(d[1])}</div>${karma}</div></div>
+  <div class="chips">${chips}</div>
+  <div class="two th"><div class="card"><div class="h g">💪 จุดแข็ง</div><div class="p">${th(d[2])}</div></div><div class="card"><div class="h r">⚠️ ควรระวัง</div><div class="p">${th(d[3])}</div></div></div>
+  <div class="card th"><div class="h m">💼 อาชีพที่เหมาะ</div><div class="p">${th(d[4])}</div><div class="hr"></div><div class="h m">❤️ ความรัก</div><div class="p">${th(d[5])}</div></div>
+  <div class="foot">${esc(R.fn)} ${esc(R.ln)} • ${R.b.d}/${R.b.m}/${R.b.y+543} • 🔢 Pythagorean</div>`;
+}
+function renderForecast(){
+  const p=$('#p2');if(!R){p.innerHTML=empty();return;}
+  const n=new Date(),py=pyear(R.b,n),pm=base(py+n.getMonth()+1),pd=base(pm+n.getDate()),lk=LUCKY[base(R.lp)];
+  const date=n.toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric',weekday:'long'});
+  const mini=(l,x)=>`<div class="card mini"><span>${l}</span><b>${x}</b><em>${CYC[x][0]} ${th(CYC[x][1])}</em></div>`;
+  p.innerHTML=`<div class="foot" style="font-size:.9rem;opacity:1">🗓️ วันนี้ ${esc(date)}</div>
+  <div class="trio th">${mini('📆 ปี',py)}${mini('🌙 เดือน',pm)}${mini('☀️ วัน',pd)}</div>
+  <div class="card th"><div class="h g">📈 แนวโน้มปีนี้</div><div class="p">${th(CYC[py][2])}</div><div class="hr"></div><div class="h m">⚡ วันนี้</div><div class="p">${CYC[pd][0]} ${th('โฟกัสเรื่อง “'+CYC[pd][1]+'” แล้วทุกอย่างจะลื่นไหล')}</div></div>
+  <div class="card th"><div class="h m">🍀 ของมงคลตามเลขวิถีชีวิต ${R.lp}</div><div class="p"><span class="sw" style="background:${lk[2]}"></span>สี${th(lk[0])} • 📅 วัน${th(lk[1])} • 🔢 เลขนำโชค ${base(R.lp)}</div></div>
+  <div class="foot">✨ ตามตำราเลขศาสตร์ ใช้เป็นแนวทางประกอบการตัดสินใจ</div>`;
+}
+function renderGrid(){
+  const p=$('#p4');if(!R){p.innerHTML=empty();return;}
+  const ct={};'123456789'.split('').forEach(x=>ct[x]=0);
+  (''+R.b.d+R.b.m+R.b.y).split('').forEach(c=>{if(ct[c]!==undefined)ct[c]++;});
+  const order=[3,6,9,2,5,8,1,4,7];
+  const cells=order.map(x=>`<div class="cell ${ct[x]?'has':'no'}${ct[x]>=3?' strong':''}"><b>${x}</b><s>${'●'.repeat(Math.min(ct[x],5))||'–'}</s><small>${TRAIT[x]}</small></div>`).join('');
+  const strong=order.slice().sort().filter(x=>ct[x]>=3), miss=order.slice().sort().filter(x=>!ct[x]);
+  const ks=[[R.lpRaw,'วิถีชีวิต'],[R.b.d,'วันเกิด'],[R.exRaw,'ชื่อ']].filter(k=>KARMA[k[0]]);
+  p.innerHTML=`<div class="grid3">${cells}</div>
+  <div class="card th"><div class="h g">🌟 เลขเด่น (ซ้ำ 3 ครั้งขึ้นไป)</div><div class="p">${strong.length?strong.map(x=>x+' '+th(TRAIT[x])).join(' • '):'ไม่มี สมดุลดี'}</div><div class="hr"></div>
+  <div class="h r">🧩 เลขที่ขาด</div><div class="p">${miss.length?miss.map(x=>x+' '+th(TRAIT[x])).join(' • '):'ครบทุกเลข'}</div></div>
+  <div class="card th"><div class="h m">⚖️ กรรมเลข</div><div class="p">${ks.length?ks.map(k=>th(k[1]+': '+KARMA[k[0]])).join('<br>'):'✅ ไม่พบกรรมเลข 13/14/16/19'}</div></div>
+  <div class="foot">🧮 ตารางวันเกิดจากเลข ว/ด/ปี (ไม่นับ 0)</div>`;
+}
+function renderMatch(){
+  const out=$('#mres');if(!R){out.innerHTML=empty();return;}
+  const raw=$('#pdob').value,pb=parseDob(raw);
+  if(!pb){out.innerHTML=raw?'<div class="err" role="alert">📅 วันเกิดไม่ถูกต้องหรืออยู่ในอนาคต</div>':'<p class="note">💘 เลือกวันเกิดของอีกคน แล้วกดตรวจความเข้ากัน</p>';return;}
+  const pl=lifePath(pb).lp,pbd=red(pb.d);
+  const sc=Math.round(.6*pairScore(base(R.lp),base(pl))+.4*pairScore(base(R.bd),base(pbd)));
+  const t=sc>=85?['💖','เข้ากันมาก','พลังเสริมกันอย่างลงตัว ช่วยกันไปได้ไกล'] : sc>=72?['😊','เข้ากันดี','คุยกันรู้เรื่อง มีจุดต่างที่เติมเต็มกันได้'] : ['🌗','ต้องปรับเข้าหากัน','คนละจังหวะ ลองเปิดใจ ฟังกัน และเคารพความต่าง'];
+  out.innerHTML=`<div class="card score th"><div style="font-size:2rem">${t[0]}</div><b>${sc}<small>%</small></b><div class="bar"><i style="width:${sc}%"></i></div><div class="ttl">${th(t[1])}</div><div class="desc">${th(t[2])}</div></div>
+  <div class="two th"><div class="card"><div class="h m">🙋 คุณ</div><div class="p">🛤️ วิถีชีวิต ${R.lp}<br>${th(M[R.lp][0])}</div></div><div class="card"><div class="h m">💞 อีกคน</div><div class="p">🛤️ วิถีชีวิต ${pl}<br>${th(M[pl][0])}</div></div></div>`;
+}
+const digits=s=>String(s||'').replace(/\D/g,'');
+const idOk=d=>{let t=0;for(let i=0;i<12;i++)t+=+d[i]*(13-i);return (11-t%11)%10===+d[12];};
+function readExtras(){
+  const idr=$('#nid').value.trim(),ph=$('#tel').value.trim(),sn=$('#seen').value.trim(),x={};
+  if(idr){const d=digits(idr);if(d.length!==13)return {err:'🪪 เลขบัตรประชาชนต้องมี 13 หลัก'};x.id=d;}
+  if(ph){let d=digits(ph);if(d.length===11&&d.startsWith('66'))d='0'+d.slice(2);
+    if(!/^0[689]\d{8}$/.test(d))return {err:'📱 เบอร์มือถือต้องมี 10 หลัก ขึ้นต้น 06/08/09'};x.tel=d;}
+  if(sn){if(!/^\d{2}$/.test(sn))return {err:'👁️ เลขที่เห็นต้องเป็นตัวเลข 2 หลัก (00-99)'};x.seen=sn;x.at=new Date();}
+  return {x};
+}
+const tier=sc=>sc>=85?'💎 เสริมดวงคุณมาก':sc>=72?'👍 เข้ากับดวงคุณดี':'🌗 กลางๆ เสริมด้วยสีและวันมงคลได้';
+function renderExtra(){
+  const p=$('#p5');if(!R){p.innerHTML=empty();return;}
+  const x=R.x||{},c=[],sumD=d=>d.split('').reduce((a,b)=>a+ +b,0);
+  const card=(k,n,ti,tx)=>`<div class="card xc th"><div class="num s">${n}</div><div class="t"><div class="k">${k}</div><div class="ttl">${ti}</div><div class="desc">${tx}</div></div></div>`;
+  if(x.id){const raw=sumD(x.id),v=red(raw),sc=pairScore(base(v),base(R.lp));
+    c.push(card(`🪪 บัตร ${x.id[0]}-••••-•••••-••-${x.id[12]}`,v,th(M[v][0]),th(`ผลรวม ${raw} → ${v} • จุดเด่น ${M[v][2]} • ${tier(sc)} (${sc}%)`)+(idOk(x.id)?'':'<br>⚠️ '+th('เลขท้ายไม่ผ่านการตรวจสอบ อาจพิมพ์ผิด'))));}
+  if(x.tel){const raw=sumD(x.tel),v=red(raw),sc=pairScore(base(v),base(R.lp)),f=`${x.tel.slice(0,3)}-${x.tel.slice(3,6)}-${x.tel.slice(6)}`;
+    c.push(card(`📱 เบอร์ ${f}`,v,th(M[v][0]),th(`ผลรวม ${raw} → ${v} • จุดเด่น ${M[v][2]} • ${tier(sc)} (${sc}%)`)));}
+  if(x.seen){const n=+x.seen,v=base(n),at=x.at||new Date(),py=pyear(R.b,at),pm=base(py+at.getMonth()+1),pd=base(pm+at.getDate()),sc=v?pairScore(v,pd):76,
+      tm=at.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),T=NOW[v];
+    const sp=x.seen[0]===x.seen[1]?(n%11===0&&n>0&&n<34?'⭐ เลขซ้ำ/มาสเตอร์ สัญญาณสำคัญ เกิดชัดและเร็ว • ':'⭐ เลขซ้ำ พลังเข้มข้น • '):'';
+    const rel=sc>=85?'✅ ตรงกับพลังวันนี้มาก แนวโน้มเป็นบวก':sc>=72?'🙂 เข้ากับพลังวันนี้ ค่อยๆ ดำเนินไป':'⚠️ ต่างจากพลังวันนี้ ตั้งสติก่อนตัดสินใจ';
+    c.push(card(`👁️ เห็นเลขนี้ เวลา ${tm} น.`,x.seen,th(T[0]+' '+T[1]),th(sp+T[2]+' • '+rel)));}
+  const miss=['id','tel','seen'].filter(k=>!x[k]).length;
+  p.innerHTML=c.length?c.join('')+(miss?'<p class="note th">➕ '+th('ใส่ข้อมูลเสริมที่แท็บ 📝 เพื่อให้ทำนายเพิ่ม')+'</p>':'')+'<div class="foot">🔒 ไม่บันทึกเลขบัตรและเบอร์ • ✨ เพื่อความบันเทิงและเป็นแนวทาง</div>'
+    :'<div class="empty"><div style="font-size:3rem">🔭</div><div class="th">'+th('ยังไม่มีข้อมูลเสริม ใส่เลขบัตร เบอร์มือถือ หรือเลขที่เห็นตอนนี้ เพื่อทำนายเพิ่ม')+'</div><button class="btn" data-go="0">🧩 ไปกรอกข้อมูลเสริม</button></div>';
+}
+const cycles=(b,d)=>{const py=pyear(b,d),pm=base(py+d.getMonth()+1);return {py,pm,pd:base(pm+d.getDate())};};
+const ADV={
+love:[['เปิดใจคุย บอกความรู้สึกตรงๆ','ใช้เวลาคุณภาพกับคนสำคัญ'],['อย่าตัดสินใจตอนอารมณ์แรง','อย่าเดาใจเอง ถามกันก่อน']],
+luck:[['ตั้งงบเล็กๆ ที่เสียได้','เก็บเงินหลักไว้ก่อน'],['อย่าเอาเงินจำเป็นไปเสี่ยง','อย่าไล่เอาคืนเมื่อพลาด']],
+biz:[['ทดลองตลาดเล็กๆ ก่อนขยาย','ถามลูกค้าจริง 5-10 คน'],['อย่าลงทุนหนักรอบเดียว','อย่าลืมเงินสำรอง']],
+money:[['ทำงบรายรับ-รายจ่ายให้ชัด','ตัดสินใจจากตัวเลข ไม่ใช่อารมณ์'],['อย่าก่อหนี้ก้อนใหญ่','อย่าตามกระแสหรือข่าวลือ']],
+work:[['อัปเดตผลงานและโปรไฟล์','คุยกับคนที่ตัดสินใจได้'],['อย่าลาออกก่อนมีทางไปรองรับ','อย่าตัดสินใจตอนโกรธ']],
+health:[['นอนให้พอ เริ่มนิสัยเล็กๆ','ตรวจสุขภาพตามนัด'],['อย่าฝืนเกินกำลัง','มีอาการผิดปกติ ไปพบแพทย์']],
+study:[['อ่านสั้นๆ ทุกวัน','ทบทวนข้อที่พลาดบ่อย'],['อย่าอัดคืนเดียวก่อนสอบ','อย่าอดนอน']],
+move:[['เช็กเอกสารและงบให้ครบ','เผื่อเวลาและเงินสำรอง'],['อย่าตัดสินใจโดยไม่ดูของจริง','อย่ารีบเซ็นสัญญา']],
+family:[['นัดคุยตอนใจเย็น','ฟังก่อนอธิบาย'],['อย่าขุดเรื่องเก่าตอนอารมณ์ร้อน','อย่าเลือกข้างเร็วเกินไป']],
+gen:[['เขียนสิ่งที่อยากได้ให้ชัด 1 ข้อ','ลงมือเรื่องเล็กๆ ก่อน'],['อย่าตัดสินใจใหญ่ตอนเหนื่อย','อย่าเทียบตัวเองกับคนอื่น']]};
+const WHEN=/เมื่อไหร่|เมื่อไร|ช่วงไหน|เดือนไหน|วันไหน|ตอนไหน|ปีไหน|when/i;
+const mth=d=>d.toLocaleDateString('th-TH',{month:'long',year:'numeric'});
+function answerQ(q){
+  const t=q.text,DAY=864e5;let tp=GENERAL,bn=0;
+  TOPICS.forEach(x=>{const c=(t.match(new RegExp(x[3].source,'gi'))||[]).length;if(c>bn){bn=c;tp=x;}});
+  const fr=FRAMES.find(x=>x[0].test(t))||[null,'ช่วงนี้','m'],kind=WHEN.test(t)?'when':YESNO.test(t)?'yn':'open';
+  const fav=tp[4],lp=base(R.lp),seen=R.x&&R.x.seen?base(+R.x.seen):null;
+  const S=n=>Math.max(35,Math.min(95,55+(fav.includes(n)?18:0)+Math.round((pairScore(n,lp)-76)/2)+(seen&&fav.includes(seen)?5:0)+(fav.includes(lp)?4:0)));
+  const d=fr[2]==='d1'?new Date(q.at.getTime()+DAY):fr[2]==='y+'?new Date(q.at.getFullYear()+1,0,1):q.at,c=cycles(R.b,d);
+  let num=fr[2][0]==='d'?c.pd:fr[2][0]==='y'?c.py:c.pm,best=[],lbl='พลัง'+fr[1];
+  if(kind==='when'){const ms=[];for(let i=0;i<12;i++){const dd=new Date(q.at.getFullYear(),q.at.getMonth()+i,15),m=cycles(R.b,dd).pm;ms.push({dd,m,s:S(m)-i*.3});}
+    ms.sort((a,b)=>b.s-a.s);num=ms[0].m;lbl='ช่วงที่เด่นสุด';best=ms.slice(0,2).sort((a,b)=>a.dd-b.dd).map(x=>mth(x.dd));}
+  const sc=S(num),lv=sc>=80?3:sc>=68?2:sc>=55?1:0,good=lv>=2,E=['⚠️','⚖️','🙂','✅'][lv];
+  const head=kind==='when'?'ช่วงที่เหมาะ: '+best.join(' หรือ '):(kind==='yn'?['ยังไม่ใช่ตอนนี้','ยังก้ำกึ่ง รอสัญญาณอีกนิด','น่าจะใช่','ใช่ ค่อนข้างมั่นใจ']:['ควรชะลอไว้ก่อน','รอจังหวะอีกนิด','เป็นไปได้ ค่อยๆ ทำ','โอกาสดี ควรลงมือ'])[lv];
+  const sum=kind==='when'?`ใน 12 เดือนข้างหน้า ${best.join(' และ ')} มีพลังหนุนเรื่อง${tp[2]}มากที่สุด ${tp[5]}`:`${fr[1]} เรื่อง${tp[2]}: ${good?tp[5]:tp[6]}`;
+  const C=CYC[num],why=[`⏱️ ${lbl} คือเลข ${num} ${C[0]} ${C[1]} — ${fav.includes(num)?'เป็นเลขที่หนุนเรื่อง':'ไม่ใช่เลขเด่นของเรื่อง'}${tp[2]}`,
+    `🛤️ เลขวิถีชีวิต ${R.lp} (${M[R.lp][0]}): ${good?'จุดแข็ง ':'ระวัง '}${good?M[R.lp][2]:M[R.lp][3]}`];
+  if(seen!==null)why.push(`👁️ เลขที่คุณเห็น ${R.x.seen} — ${fav.includes(seen)?'หนุนเรื่องนี้':'ไม่ตรงกับเรื่องนี้'}`);
+  const days=[];for(let i=0;i<14&&days.length<2;i++){const dd=new Date(q.at.getTime()+i*DAY);if(fav.includes(cycles(R.b,dd).pd))days.push(dd.toLocaleDateString('th-TH',{weekday:'short',day:'numeric',month:'short'}));}
+  return {tp,fr,num,sc,E,head,sum,why,days,kind,best,adv:ADV[tp[0]]||ADV.gen};
+}
+function renderAsk(){
+  const p=$('#p6');if(!R){p.innerHTML=empty();return;}
+  const q=R.q,box=`<div class="ask"><input id="q2" maxlength="150" autocomplete="off" placeholder="❓ พิมพ์คำถามของคุณ" value="${q?esc(q.text):''}" aria-label="คำถาม"><button class="btn" id="ask">🔮 ถาม</button></div>`;
+  if(!q){p.innerHTML=box+'<div class="ex">'+['💼 ปีนี้ควรเปลี่ยนงานไหม','💞 เดือนนี้เรื่องความรักเป็นอย่างไร','💰 ควรลงทุนตอนนี้ไหม','🗓️ ควรเริ่มธุรกิจเมื่อไหร่'].map(x=>`<button class="chip" data-ex="${esc(x.slice(3))}">${x}</button>`).join('')+'</div><p class="note th">💡 '+th('ระบุช่วงเวลา เช่น วันนี้ เดือนนี้ ปีนี้ หรือถามว่า “เมื่อไหร่” เพื่อให้คำตอบตรงขึ้น')+'</p>';return;}
+  const a=answerQ(q),qt=q.text.length>70?q.text.slice(0,68)+'…':q.text,li=r=>r.map(x=>`<div class="ln">• ${th(x)}</div>`).join('');
+  const tm=a.kind==='when'?`<div class="ln">🗓️ ${th('เดือนที่เหมาะ ')+a.best.map(esc).join(' • ')}</div>`:'';
+  const note=a.tp[0]==='health'?'ไม่ใช่คำแนะนำทางการแพทย์ หากกังวลควรปรึกษาแพทย์':a.tp[0]==='money'||a.tp[0]==='biz'?'ไม่ใช่คำแนะนำการลงทุน ตัดสินใจด้วยข้อมูลจริงเสมอ':'เพื่อความบันเทิงและเป็นแนวทางประกอบการตัดสินใจ';
+  p.innerHTML=box+`<div class="card th"><div class="qt">❓ “${th(qt)}”</div><div class="vd"><div class="sc"><span>${a.E}</span>${a.sc}<small>%</small></div><div style="min-width:0"><div class="k">${a.tp[1]} ${th(a.tp[2])} • 🎯 ตอบตรงๆ</div><div class="ttl">${th(a.head)}</div></div></div><div class="bar"><i style="width:${a.sc}%"></i></div><div class="p">${th(a.sum)}</div></div>
+  <div class="card th"><div class="h m">🔎 ทำไมถึงตอบแบบนี้</div>${a.why.map(x=>`<div class="ln">${th(x)}</div>`).join('')}</div>
+  <div class="card th"><div class="h g">✅ ควรทำ</div><div class="p">${a.adv[0].map(x=>th(x)).join(' • ')}</div><div class="hr"></div><div class="h r">⚠️ ควรระวัง</div><div class="p">${a.adv[1].map(x=>th(x)).join(' • ')}</div></div>
+  <div class="card th"><div class="h m">📅 จังหวะเวลา</div>${tm}<div class="ln">${a.days.length?th('วันที่เหมาะใน 14 วัน: ')+a.days.map(esc).join(' • '):th('14 วันข้างหน้ายังไม่มีวันเด่น ลองถามใหม่ภายหลัง')}</div></div>
+  <div class="foot th">${th('✨ '+note)}</div>`;
+}
+function ask(txt){
+  const t=String(txt||'').trim().slice(0,150);if(!t){toast('❓ พิมพ์คำถามก่อนนะ');return;}
+  R.q={text:t,at:new Date()};$('#q').value=t;renderAsk();$('#p6').scrollTop=0;fit();
+}
+function renderAll(){[renderCore,renderForecast,renderGrid,renderExtra,renderAsk].forEach(f=>{try{f();}catch(e){console.error(e);}});try{renderMatch();}catch(e){}}
+
+/* ---------- interactions ---------- */
+function fit(){
+  const p=$('.pane:not([hidden])'),r=document.documentElement;if(!p)return;
+  r.style.fontSize='';let f=parseFloat(getComputedStyle(r).fontSize);
+  while(p.scrollHeight>p.clientHeight+1&&f>11){f-=.5;r.style.fontSize=f+'px';}
+}
+function showTab(i){
+  tab=i;$$('.pane').forEach((p,n)=>p.hidden=n!==i);
+  $$('nav button').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.t===i)));
+  const p=$('#p'+i);if(p)p.scrollTop=0;
+  try{if(i===1)renderCore();if(i===2)renderForecast();}catch(e){console.error(e);}fit();
+}
+function submit(){
+  const fn=$('#fn').value,ln=$('#ln').value,dob=$('#dob').value,e=$('#err');
+  const x=compute(dob,fn,ln);
+  if(x.err){e.textContent=x.err;return;}
+  const ex=readExtras();if(ex.err){e.textContent=ex.err;return;}
+  const qt=$('#q').value.trim().slice(0,120);
+  e.textContent='';R=x.r;R.x=ex.x;R.q=qt?{text:qt,at:new Date()}:null;sel='lp';store.set({dob,fn,ln});renderAll();showTab(qt?6:1);
+}
+function summary(){
+  const L=KEYS.map(k=>`${k[1]} ${k[2]}: ${R[k[0]]}`).join('\n');
+  return `🔮 เลขศาสตร์ของ ${R.fn} ${R.ln}\n${L}\n✨ ${M[R.lp][0]}`;
+}
+async function share(){
+  if(!R)return;const text=summary();
+  try{if(navigator.share){await navigator.share({title:'เลขศาสตร์',text});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+  try{await navigator.clipboard.writeText(text);toast('📋 คัดลอกผลแล้ว');}
+  catch(e){const t=document.createElement('textarea');t.value=text;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();
+    try{document.execCommand('copy');toast('📋 คัดลอกผลแล้ว');}catch(_){toast('❌ คัดลอกไม่สำเร็จ');}t.remove();}
+}
+function init(){
+  const today=new Date(),iso=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  $('#dob').max=iso;$('#pdob').max=iso;
+  $$('nav button').forEach(b=>b.addEventListener('click',()=>showTab(+b.dataset.t)));
+  $('#go').addEventListener('click',submit);
+  const only=(id,re)=>$('#'+id).addEventListener('input',e=>{const v=e.target.value.replace(re,'');if(v!==e.target.value)e.target.value=v;});
+  only('nid',/[^\d\s-]/g);only('tel',/[^\d\s+-]/g);only('seen',/\D/g);
+  ['fn','ln','dob','q','nid','tel','seen'].forEach(id=>$('#'+id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit();}}));
+  $('#clr').addEventListener('click',()=>{['dob','fn','ln','q','nid','tel','seen'].forEach(id=>$('#'+id).value='');$('#err').textContent='';R=null;store.del();renderAll();toast('🗑️ ล้างข้อมูลแล้ว');});
+  document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='q2'&&R)ask(e.target.value);});
+  const doMatch=()=>{renderMatch();fit();};$('#mgo').addEventListener('click',doMatch);$('#pdob').addEventListener('change',doMatch);
+  document.addEventListener('click',e=>{
+    const qs=e.target.closest('[data-qs]');if(qs){const qi=$('#q');qi.value=qs.dataset.qs;qi.focus();return;}
+    const k=e.target.closest('[data-k]');if(k&&R){sel=k.dataset.k;renderCore();fit();return;}
+    if(e.target.closest('#share')){share();return;}
+    if(e.target.closest('#ask')){ask($('#q2').value);return;}
+    const ex=e.target.closest('[data-ex]');if(ex&&R){ask(ex.dataset.ex);return;}
+    const g=e.target.closest('[data-go]');if(g)showTab(+g.dataset.go);
+  });
+  const s=store.get();
+  if(s&&typeof s==='object'){$('#dob').value=s.dob||'';$('#fn').value=s.fn||'';$('#ln').value=s.ln||'';
+    const x=compute(s.dob,s.fn,s.ln);if(x.r)R=x.r;}
+  renderAll();showTab(0);
+  const refit=()=>{const a=document.activeElement;if(!(a&&/INPUT|TEXTAREA/.test(a.tagName)))fit();};
+  window.addEventListener('resize',refit);window.addEventListener('orientationchange',refit);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(refit);
+}
+init();
+})();
+</script>
+</body>
+</html>
